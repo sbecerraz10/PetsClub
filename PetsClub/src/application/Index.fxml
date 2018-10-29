@@ -1,7 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-	
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.IndexController">
-	<!-- TODO Add Nodes -->
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane prefHeight="400.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="application.IndexController">
+   <top>
+      <Pane prefHeight="400.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <TabPane prefHeight="400.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Owner">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Pane prefHeight="330.0" prefWidth="400.0">
+                                 <children>
+                                    <TextField fx:id="tfID" layoutX="176.0" layoutY="46.0" prefHeight="26.0" prefWidth="192.0" />
+                                    <TextField fx:id="tfName" layoutX="176.0" layoutY="98.0" prefHeight="26.0" prefWidth="192.0" />
+                                    <TextField fx:id="tfSurname" layoutX="176.0" layoutY="148.0" prefHeight="26.0" prefWidth="192.0" />
+                                    <Label layoutX="41.0" layoutY="54.0" text="Identification:" />
+                                    <Label layoutX="41.0" layoutY="104.0" text="Name:" />
+                                    <Label layoutX="41.0" layoutY="154.0" text="Surname:" />
+                                    <Label layoutX="41.0" layoutY="204.0" text="Birthdate:" />
+                                    <DatePicker fx:id="dpBirthdate" layoutX="169.0" layoutY="210.0" prefHeight="26.0" prefWidth="204.0" />
+                                    <Button fx:id="btRegister" contentDisplay="TOP" layoutX="14.0" layoutY="260.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Register">
+                                       <graphic>
+                                          <ImageView fitHeight="22.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images_PetsClub/icons8-add-user-male-filled-50.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="btDelete" contentDisplay="TOP" layoutX="111.0" layoutY="260.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Delete">
+                                       <graphic>
+                                          <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images_PetsClub/icons8-delete-user-male-filled-50.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="btSearch" contentDisplay="TOP" layoutX="206.0" layoutY="260.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Search">
+                                       <graphic>
+                                          <ImageView fitHeight="28.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images_PetsClub/icons8-find-user-male-filled-50.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="btModify" contentDisplay="TOP" layoutX="307.0" layoutY="260.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Modify">
+                                       <graphic>
+                                          <ImageView fitHeight="30.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images_PetsClub/icons8-edit-profile-24.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="400.0" prefHeight="330.0" prefWidth="400.0">
+                                 <children>
+                                    <TextField fx:id="tfNamePet" layoutX="166.0" layoutY="41.0" prefHeight="26.0" prefWidth="209.0" />
+                                    <ComboBox fx:id="cbGender" layoutX="166.0" layoutY="153.0" prefHeight="28.0" prefWidth="215.0" />
+                                    <DatePicker fx:id="dpBirthdatePet" layoutX="166.0" layoutY="102.0" prefHeight="26.0" prefWidth="211.0" />
+                                    <ComboBox fx:id="cbType" layoutX="166.0" layoutY="203.0" prefHeight="28.0" prefWidth="215.0" />
+                                    <Label layoutX="66.0" layoutY="45.0" prefHeight="18.0" prefWidth="82.0" text="Name:" />
+                                    <Label layoutX="66.0" layoutY="106.0" prefHeight="18.0" prefWidth="82.0" text="Birthdate:" />
+                                    <Label layoutX="66.0" layoutY="156.0" prefHeight="18.0" prefWidth="82.0" text="Gender:" />
+                                    <Label layoutX="66.0" layoutY="206.0" prefHeight="18.0" prefWidth="82.0" text="Type:" />
+                                    <Button fx:id="btRegisterPet" contentDisplay="TOP" layoutX="7.0" layoutY="262.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Register">
+                                       <graphic>
+                                          <ImageView fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images_PetsClub/icons8-add-filled-50.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="btDeletePet" contentDisplay="TOP" layoutX="107.0" layoutY="262.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Delete">
+                                       <graphic>
+                                          <ImageView fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images_PetsClub/icons8-cancel-filled-50.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="btSearchPet" contentDisplay="TOP" layoutX="207.0" layoutY="262.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Search">
+                                       <graphic>
+                                          <ImageView fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images_PetsClub/icons8-search-30.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="btModifyPet" contentDisplay="TOP" layoutX="307.0" layoutY="262.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Modify">
+                                       <graphic>
+                                          <ImageView fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images_PetsClub/icons8-pencil-filled-50.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Consults">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Pane prefHeight="100.0" prefWidth="806.0">
+                                 <children>
+                                    <DatePicker fx:id="criteria" layoutX="113.0" layoutY="27.0" prefHeight="31.0" prefWidth="181.0" />
+                                    <Label layoutX="14.0" layoutY="24.0" prefHeight="18.0" prefWidth="88.0" text="Criteria:">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Button fx:id="btOwners" layoutX="330.0" layoutY="22.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="88.0" text="Owners" />
+                                    <Button fx:id="btPets" layoutX="450.0" layoutY="22.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="88.0" text="Pets" />
+                                    <Button fx:id="btRepOwners" layoutX="570.0" layoutY="22.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="106.0" text="Rep. Owners" />
+                                    <Button fx:id="btRepPets" layoutX="700.0" layoutY="22.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="106.0" text="Rep. Pets" />
+                                 </children>
+                              </Pane>
+                              <TextArea layoutX="7.0" layoutY="91.0" prefHeight="243.0" prefWidth="782.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </Pane>
+   </top>
 </BorderPane>

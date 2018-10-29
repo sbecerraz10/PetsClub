@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+import exceptions.ExistentOwnerException;
 import exceptions.ExistentPetException;
 
 public class PetsClub {
@@ -21,12 +22,13 @@ public class PetsClub {
 	 * 
 	 * @param owner
 	 */
-	public void registerOwner(Owner new_owner) {
-		Owner actual = first_owner;
-		Owner previous = null;
+	public void registerOwner(Owner new_owner) throws ExistentOwnerException {
+	
 		if(emptyOwners()) {
 			first_owner = new_owner;
 		}else {
+			Owner actual = first_owner;
+			Owner previous = null;			
 			//New Owner is greater than the first one
 			if(new_owner.compareTo(first_owner) < 0 ) {
 				new_owner.setNext(first_owner);
@@ -34,6 +36,11 @@ public class PetsClub {
 			}else {
 				//Loop while, for find the right position to save the new owner
 				while(new_owner.compareTo(actual) > 0 && actual!=null) {
+					if(new_owner.getId().equals(actual.getId())) 
+					{
+						throw new ExistentOwnerException();
+					}
+					
 					previous = actual;
 					actual = actual.getNext();
 				}
@@ -266,7 +273,7 @@ public class PetsClub {
 	}
 	
 	
-	public Pet searchPetByBirthday(Date birthday) {
+	public Pet searchPetByBirthdate(Date birthdate) {
 		
 		if(!emptyOwners()) {
 			int times1 = 0;
@@ -276,7 +283,7 @@ public class PetsClub {
 					if(actual.getFirst_pet()!=null) {
 						Pet pactual = actual.getFirst_pet();
 						while(times2<actual.getPets_size()) {
-							if(pactual.getBirthday().equals(birthday)) {
+							if(pactual.getBirthday().equals(birthdate)) {
 								return pactual;
 							}else {
 								pactual = pactual.getNext();
@@ -326,6 +333,43 @@ public class PetsClub {
 		
 	}
 	
+	
+	public Owner consultOwners(Date criteria) {
+		Owner toreturn = null;
+		if(criteria==null) {
+			toreturn = first_owner;
+		}else {
+			if(!emptyOwners()) {
+				Owner actual = first_owner;
+				Owner previous = null;
+				Owner newlist = null;
+			while(actual!=null) {
+				if(actual.getBirthday().equals(criteria)) {
+					if(newlist==null) {
+						Owner newActual = actual;
+						newlist = newActual;
+						newlist.setPrevious(null);
+						newlist.setNext(null);
+					}else {
+						Owner newActual = actual;
+						newActual.setPrevious(null);
+						newActual.setNext(newlist);
+						newlist.setPrevious(newActual);
+						newlist = newActual;
+					}
+					
+				}
+				
+			}
+			
+			toreturn = newlist;
+			
+			}
+		}
+		
+		
+		return toreturn;
+	}
 	
 	
 	
