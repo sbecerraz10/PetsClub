@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Owner implements Comparable<Owner>{
@@ -9,7 +10,7 @@ public class Owner implements Comparable<Owner>{
 	private String id;
 	private String name;
 	private String lastname;
-	private Date birthday;
+	private LocalDate birthdate;
 	private int pets_size;
 	
 	private Pet first_pet;
@@ -26,12 +27,12 @@ public class Owner implements Comparable<Owner>{
 	 * @param lastname
 	 * @param birthday
 	 */
-	public Owner(String id, String name, String lastname, Date birthday) {
+	public Owner(String id, String name, String lastname, LocalDate birthdate) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.lastname = lastname;
-		this.birthday = birthday;
+		this.birthdate = birthdate;
 		next = null;
 		previous = null;
 		first_pet = null;
@@ -89,13 +90,13 @@ public class Owner implements Comparable<Owner>{
 	}
 
 
-	public Date getBirthday() {
-		return birthday;
+	public LocalDate getBirthdate() {
+		return birthdate;
 	}
 
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public void setBirthdate(LocalDate birthdate) {
+		this.birthdate = birthdate;
 	}
 
 
@@ -122,7 +123,15 @@ public class Owner implements Comparable<Owner>{
 	@Override
 	public int compareTo(Owner owner2) {
 		// TODO Auto-generated method stub
-		return this.name.compareToIgnoreCase(owner2.getName());
+		int number = 0;
+		if(Integer.parseInt(this.id) < Integer.parseInt(owner2.getId())) {
+			number = -1;
+		}else if(Integer.parseInt(this.id) < Integer.parseInt(owner2.getId())){
+			number = 1;
+		}
+		
+		
+		return number; 
 	}
 	
 	public boolean containsPet(Pet pet) {

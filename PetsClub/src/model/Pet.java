@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Pet {
 	
@@ -11,14 +11,14 @@ public class Pet {
 	public static final String CAT = "Cat"; 
 	private Pet next;
 	private String name;
-	private Date birthday;
+	private LocalDate birthdate;
 	private char gender;
 	private String type;
 	
-	public Pet(String name,Date birthday,char gender,String type) {
+	public Pet(String name,LocalDate birthdate,char gender,String type) {
 		next = null;
 		this.name =  name;
-		this.birthday = birthday;
+		this.birthdate = birthdate;
 		this.gender = gender;
 		this.type = type;
 	}
@@ -43,12 +43,12 @@ public class Pet {
 		this.name = name;
 	}
 
-	public Date getBirthday() {
-		return birthday;
+	public LocalDate getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
+	public void setBirthdate(LocalDate birthdate) {
+		this.birthdate = birthdate;
 	}
 
 	public char getGender() {

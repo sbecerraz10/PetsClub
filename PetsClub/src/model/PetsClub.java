@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import exceptions.ExistentOwnerException;
 import exceptions.ExistentPetException;
@@ -15,6 +15,7 @@ public class PetsClub {
 	
 	public PetsClub() {
 		first_owner = null;
+		owners_size = 0;
 	}
 	
 	
@@ -25,6 +26,7 @@ public class PetsClub {
 	public void registerOwner(Owner new_owner) throws ExistentOwnerException {
 	
 		if(emptyOwners()) {
+			first_owner = new Owner();
 			first_owner = new_owner;
 		}else {
 			Owner actual = first_owner;
@@ -46,6 +48,7 @@ public class PetsClub {
 				}
 				//Connections 
 				new_owner.setNext(actual);
+				if(previous!=null)
 				previous.setNext(new_owner);
 				new_owner.setPrevious(previous);
 				if(actual!=null) actual.setPrevious(new_owner);
@@ -273,7 +276,7 @@ public class PetsClub {
 	}
 	
 	
-	public Pet searchPetByBirthdate(Date birthdate) {
+	public Pet searchPetByBirthdate(LocalDate birthdate) {
 		
 		if(!emptyOwners()) {
 			int times1 = 0;
@@ -283,7 +286,7 @@ public class PetsClub {
 					if(actual.getFirst_pet()!=null) {
 						Pet pactual = actual.getFirst_pet();
 						while(times2<actual.getPets_size()) {
-							if(pactual.getBirthday().equals(birthdate)) {
+							if(pactual.getBirthdate().equals(birthdate)) {
 								return pactual;
 							}else {
 								pactual = pactual.getNext();
@@ -334,7 +337,7 @@ public class PetsClub {
 	}
 	
 	
-	public Owner consultOwners(Date criteria) {
+	public Owner consultOwners(LocalDate criteria) {
 		Owner toreturn = null;
 		if(criteria==null) {
 			toreturn = first_owner;
@@ -344,7 +347,7 @@ public class PetsClub {
 				Owner previous = null;
 				Owner newlist = null;
 			while(actual!=null) {
-				if(actual.getBirthday().equals(criteria)) {
+				if(actual.getBirthdate().equals(criteria)) {
 					if(newlist==null) {
 						Owner newActual = actual;
 						newlist = newActual;
@@ -369,6 +372,61 @@ public class PetsClub {
 		
 		
 		return toreturn;
+	}
+	
+	
+	public Pet consultPets(LocalDate criteria) {
+		Pet firstPet = null;
+		if(!emptyOwners()) {
+			Owner actual = first_owner;
+			Owner previous = null;
+			if(criteria.toString().equals("")) {
+				
+				while(actual!=null) {
+					Pet actual1 = new Pet();
+					Pet next1 = null;
+					actual1 = actual.getFirst_pet();
+					
+					for(int i=0; i < actual.getPets_size();i++) {
+						Pet inside = actual1;
+						if(firstPet==null) {
+							firstPet = inside;
+						}else {
+							inside.setNext(firstPet);
+							firstPet = inside;
+						}
+						actual1 = actual1.getNext();
+ 					}
+					
+					previous = actual;
+					actual = actual.getNext();
+				}
+			}else {
+				while(actual!=null) {
+					Pet actual1 = new Pet();
+					Pet next1 = null;
+					actual1 = actual.getFirst_pet();
+					
+					for(int i=0; i < actual.getPets_size();i++) {
+						Pet inside = actual1;
+						if(inside.getBirthdate().equals(criteria)) {		
+								if(firstPet==null) {
+									firstPet = inside;
+								}else {
+									inside.setNext(firstPet);
+									firstPet = inside;
+								}
+						}		
+						actual1 = actual1.getNext();
+ 					}
+					
+					previous = actual;
+					actual = actual.getNext();
+				}
+			}
+		}
+		
+		return firstPet;
 	}
 	
 	

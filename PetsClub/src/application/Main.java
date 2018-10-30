@@ -1,5 +1,6 @@
 package application;
 	
+import java.time.LocalDate;
 import java.util.Date;
 
 import exceptions.ExistentOwnerException;
@@ -32,52 +33,66 @@ public class Main extends Application {
 		}
 	}
 	
+	public Main() {
+		petsclub = new PetsClub();
+	}
+	
 	public static void main(String[] args) {
+		//petsclub = new PetsClub();
+		Main main = new Main();
 		launch(args);
 	}
 	
-	public void registerOwner(Owner new_owner) throws ExistentOwnerException {
+	public PetsClub getPetsClub() {
+		return this.petsclub;
+	}
+	
+	public static void registerOwner(Owner new_owner) throws ExistentOwnerException {
 		petsclub.registerOwner(new_owner);
 	}
 	
-	public void deleteOwner(String id) {
+	public static void deleteOwner(String id) {
 		petsclub.deleteOwner(id);
 	}
 	
-	public Owner searchOwnerByName(String name) {
+	public static Owner searchOwnerByName(String name) {
 		return petsclub.searchOwnerByName(name);
 	}
 	
-	public Owner searchOwnerById(String id) {
+	public static Owner searchOwnerById(String id) {
 		return petsclub.searchOwnerById(id);
 	}
 	
-	public void modifyOwner(Owner owner) {
+	public static void modifyOwner(Owner owner) {
 		petsclub.modifyOwner(owner);
 	}
 	
-	public void registerPet(Pet pet,Owner owner) throws ExistentPetException {
+	public static void registerPet(Pet pet,Owner owner) throws ExistentPetException {
 		petsclub.registerPet(pet, owner);
 	}
 	
-	public void deletePet(String name,Owner owner) {
+	public static void deletePet(String name,Owner owner) {
 		petsclub.deletePet(name, owner);;
 	}
 	
-	public Pet searchPetByName(String name) {
+	public static Pet searchPetByName(String name) {
 		return petsclub.searchPetByName(name);
 	}
 	
-	public Pet searchPetByBirthdate(Date birthdate) {
+	public static Pet searchPetByBirthdate(LocalDate birthdate) {
 		return petsclub.searchPetByBirthdate(birthdate);
 	}
 	
-	public void modifyPet(Pet pet) {
+	public static void modifyPet(Pet pet) {
 		petsclub.modifyPet(pet);
 	}
 	
-	public Owner consultOwners(Date criteria) {
+	public static Owner consultOwners(LocalDate criteria) {
 		return petsclub.consultOwners(criteria);
+	}
+
+	public static Pet consultPets(LocalDate criteria) {
+		return petsclub.consultPets(criteria);
 	}
 	
 	
