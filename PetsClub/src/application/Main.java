@@ -55,6 +55,10 @@ public class Main extends Application {
 		petsclub.deleteOwner(id);
 	}
 	
+	public static Owner searchOwner(String condition) {
+		return petsclub.searchOwner(condition);
+	}
+	
 	public static Owner searchOwnerByName(String name) {
 		return petsclub.searchOwnerByName(name);
 	}
@@ -73,6 +77,10 @@ public class Main extends Application {
 	
 	public static void deletePet(String name,Owner owner) {
 		petsclub.deletePet(name, owner);;
+	}
+	
+	public static Pet searchPet(String condition) {
+		return petsclub.searchPet(condition);
 	}
 	
 	public static Pet searchPetByName(String name) {
@@ -95,6 +103,9 @@ public class Main extends Application {
 		return petsclub.consultPets(criteria);
 	}
 	
+	public static boolean contains(Owner owner) {
+		return petsclub.containsOwner(owner);
+	}
 	
 	
 	

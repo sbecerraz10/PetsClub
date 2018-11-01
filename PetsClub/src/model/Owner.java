@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class Owner implements Comparable<Owner>{
+public class Owner implements Comparable<Owner>, Serializable{
 	
 	private Owner next;
 	private Owner previous;
@@ -126,7 +127,7 @@ public class Owner implements Comparable<Owner>{
 		int number = 0;
 		if(Integer.parseInt(this.id) < Integer.parseInt(owner2.getId())) {
 			number = -1;
-		}else if(Integer.parseInt(this.id) < Integer.parseInt(owner2.getId())){
+		}else if(Integer.parseInt(this.id) > Integer.parseInt(owner2.getId())){
 			number = 1;
 		}
 		
@@ -140,11 +141,10 @@ public class Owner implements Comparable<Owner>{
 		if(pets_size>0) {
 			int times = 0;
 			while(times<pets_size) {
-				if(actual.getName().equals(pet.getName())) {
+				if(actual.getName().compareToIgnoreCase(pet.getName()) == 0) {
 					contains = true;
-				}else {
-					actual = actual.getNext();
 				}
+				actual = actual.getNext();
 				times++;
 			}
 		}
@@ -159,11 +159,11 @@ public class Owner implements Comparable<Owner>{
 			int times = 0;
 			
 			while(times<pets_size) {
-				if(first_pet.getName().equals(pname)) {
+				if(first_pet.getName().compareToIgnoreCase(pname) == 0) {
 					first_pet = first_pet.getNext();
 					break;
 				}
-				if(actual.getName().equals(pname)) {
+				if(actual.getName().compareToIgnoreCase(pname) == 0) {
 					previous.setNext(actual.getNext());
 					actual.setNext(null);
 					break;

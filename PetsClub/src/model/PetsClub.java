@@ -1,5 +1,11 @@
 package model;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 
 import exceptions.ExistentOwnerException;
@@ -16,6 +22,73 @@ public class PetsClub {
 	public PetsClub() {
 		first_owner = null;
 		owners_size = 0;
+		loadApp();
+	}
+	
+	public int getSize() {
+		return owners_size;
+	}
+	
+	public void setFirst(Owner owner) {
+		this.first_owner = owner;
+	}
+	
+	public void saveApp() {
+		
+		try {
+			FileOutputStream fileout = new FileOutputStream("archivo/app.dat");
+			ObjectOutputStream obj = new ObjectOutputStream(fileout);
+			if(first_owner!=null)
+			obj.writeObject(first_owner);
+			
+			obj.flush();
+			obj.close();
+			fileout.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	public void loadApp() {
+		
+		try {
+		FileInputStream filein = new FileInputStream("archivo/app.dat");
+		ObjectInputStream obj = new ObjectInputStream(filein);
+		Owner temp = new Owner();
+	
+		temp = (Owner)obj.readObject();
+		first_owner = temp; 
+		
+		
+		obj.close();
+		filein.close();
+		}catch(IOException e) {
+			//saveApp();
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public boolean existentOwner(String id) {
+		boolean existent = false;
+		Owner actual = first_owner;
+		if(!emptyOwners()) {
+			while(actual!=null) {
+				if(actual.getId().equals(id)) {
+					existent = true;
+				}
+				actual = actual.getNext();
+			}		
+		}
+		
+		return existent;
 	}
 	
 	
@@ -29,35 +102,38 @@ public class PetsClub {
 			first_owner = new Owner();
 			first_owner = new_owner;
 		}else {
-			Owner actual = first_owner;
-			Owner previous = null;			
-			//New Owner is greater than the first one
-			if(new_owner.compareTo(first_owner) < 0 ) {
-				new_owner.setNext(first_owner);
-				first_owner = new_owner;
-			}else {
-				//Loop while, for find the right position to save the new owner
-				while(new_owner.compareTo(actual) > 0 && actual!=null) {
-					if(new_owner.getId().equals(actual.getId())) 
-					{
+			if(!existentOwner(new_owner.getId())) {
+				Owner actual = first_owner;
+				Owner previous = null;			
+				//New Owner is greater than the first one
+				if(first_owner.compareTo(new_owner) > 0 ) {
+					if(!new_owner.getId().equals(first_owner)) {
+						new_owner.setNext(first_owner);
+						first_owner = new_owner;
+					}else {
 						throw new ExistentOwnerException();
 					}
-					
-					previous = actual;
-					actual = actual.getNext();
+				}else {
+					//Loop while, for find the right position to save the new owner
+					while(new_owner.compareTo(actual) > 0 && actual!=null) {
+						previous = actual;
+						actual = actual.getNext();
+					}
+					//Connections 
+					new_owner.setNext(actual);
+					if(previous!=null)
+					previous.setNext(new_owner);
+					new_owner.setPrevious(previous);
+					if(actual!=null) actual.setPrevious(new_owner);
+				
 				}
-				//Connections 
-				new_owner.setNext(actual);
-				if(previous!=null)
-				previous.setNext(new_owner);
-				new_owner.setPrevious(previous);
-				if(actual!=null) actual.setPrevious(new_owner);
 			
+			}else {
+				throw new ExistentOwnerException();
 			}
-			
 		}
-		
 		owners_size++;
+		saveApp();
 	}
 	
 	
@@ -109,15 +185,14 @@ public class PetsClub {
 		boolean contains = false;
 		Owner actual = first_owner;
 		if(!emptyOwners()) {
-			int times = 0;
-			while(times<owners_size) {
+			//int times = 0;
+			while(actual!=null) {
 				if(actual.equals(ow)) {
 					contains = true;
 					break;
-				}else {
-					actual = actual.getNext();
 				}
-				times++;
+				actual = actual.getNext();
+				//times++;
 			}
 		}
 		return contains;
@@ -140,56 +215,78 @@ public class PetsClub {
 						actual = first_owner;
 					}else {
 						 previous.setNext(actual.getNext());
-                         actual.getNext().setPrevious(previous);
+                         if(actual.getNext()!=null)
+						 actual.getNext().setPrevious(previous);
 						 actual.setNext(null);
                          actual = previous.getNext();
-					}
-				}else {
-					previous = actual;
-					actual = actual.getNext();
+                         break;
+					}	
 				}
+				previous = actual;
+				//if(actual.getNext()!=null);
+				actual = actual.getNext();
 			}
 		}
 		
 		owners_size--;
+		saveApp();
+	}
+	
+	public Owner searchOwner(String condition) {
+		Owner actual = first_owner;
+		Owner toReturn = null;
+		if(!emptyOwners()) {
+			while(actual!=null) {
+				if(first_owner.getName().equals(condition) || first_owner.getId().equals(condition)) {
+					toReturn = this.first_owner;
+				}
+				if(actual.getName().equals(condition) || actual.getId().equals(condition)) {
+					toReturn = actual;
+				}
+					actual = actual.getNext();
+			}
+		}
+		
+		return toReturn;
 	}
 	
 	
 	public Owner searchOwnerByName(String name) {
 		Owner actual = first_owner;
+		Owner toReturn = null;
 		if(!emptyOwners()) {
 			while(actual!=null) {
 				if(first_owner.getName().equals(name)) {
-					return this.first_owner;
+					toReturn = this.first_owner;
 				}
 				if(actual.getName().equals(name)) {
-					return actual;
-				}else{
-					actual = actual.getNext();
+					toReturn = actual;
 				}
+					actual = actual.getNext();
 			}
 		}
 		
-		return null;
+		return toReturn;
 	}
 	
 	
 	public Owner searchOwnerById(String id) {
 		Owner actual = first_owner;
+		Owner toReturn = null;
 		if(!emptyOwners()) {
 			while(actual!=null) {
 				if(first_owner.getId().equals(id)) {
-					return this.first_owner;
+					toReturn =  this.first_owner;
 				}
 				if(actual.getId().equals(id)) {
-					return actual;
+					toReturn = actual;
 				}else{
 					actual = actual.getNext();
 				}
 			}
 		}
 		
-		return null;
+		return toReturn;
 	}
 	
 	
@@ -209,8 +306,27 @@ public class PetsClub {
 			}
 		}
 		
+		saveApp();
 	}
 	
+	
+	public boolean existentPet(Pet pet, Owner ow) {
+		boolean exist = false;
+		if(ow!=null) {
+			if(ow.getPets_size()>0) {
+				Pet actual = ow.getFirst_pet();
+				while(actual!=null) {
+					if(actual.getName().compareToIgnoreCase(pet.getName()) == 0) {
+						exist = true;
+					}
+					
+					actual = actual.getNext();
+				}
+			}	
+		}
+		
+		return exist;
+	}
 	
 	
 	/**
@@ -222,19 +338,22 @@ public class PetsClub {
 	 */
 	public void registerPet(Pet pet,Owner owner) throws ExistentPetException  {
 		//Should throw ExistentPetException
-		
-		if(owner.getFirst_pet()==null) {
-			owner.setFirst_pet(pet);
-		}else {
-			if(!owner.containsPet(pet)) {
-				pet.setNext(owner.getFirst_pet());
+		if(!existentPet(pet, owner)) {
+			if(owner.getFirst_pet()==null) {
 				owner.setFirst_pet(pet);
 			}else {
-				throw new ExistentPetException();
-			}	
-		}
-		int size = owner.getPets_size(); 
-		owner.setPets_size(size++);
+				if(!owner.containsPet(pet)) {
+					pet.setNext(owner.getFirst_pet());
+					owner.setFirst_pet(pet);
+				}else {
+					throw new ExistentPetException();
+				}	
+			}
+			int size = owner.getPets_size(); 
+			owner.setPets_size(size++);
+		}else {
+			throw new ExistentPetException();
+		}	
 	}
 	
 	
@@ -245,6 +364,34 @@ public class PetsClub {
 	 */
 	public void deletePet(String name, Owner owner) {
 		owner.deletePet(name);
+	}
+	
+	
+	
+	public Pet searchPet(String condition) {
+		Pet pactual = null;
+		if(!emptyOwners()) {
+			int times1 = 0;
+			Owner actual = first_owner;
+			while(times1<owners_size) {
+					int times2 = 0;
+					if(actual.getFirst_pet()!=null) {
+						pactual = actual.getFirst_pet();
+						while(times2<actual.getPets_size()) {
+							if(pactual.getName().equals(condition) || pactual.getBirthdate().toString().equals(condition)) {
+								return pactual;
+							}
+							pactual = pactual.getNext();
+							
+							times2++;
+						}
+					}
+				actual = actual.getNext();
+				times1++;
+			}
+		}
+		
+		return pactual;
 	}
 	
 	
@@ -362,6 +509,8 @@ public class PetsClub {
 					}
 					
 				}
+				previous = actual;
+				actual = actual.getNext();
 				
 			}
 			
@@ -380,14 +529,14 @@ public class PetsClub {
 		if(!emptyOwners()) {
 			Owner actual = first_owner;
 			Owner previous = null;
-			if(criteria.toString().equals("")) {
+			if(criteria==null) {
 				
 				while(actual!=null) {
 					Pet actual1 = new Pet();
 					Pet next1 = null;
 					actual1 = actual.getFirst_pet();
 					
-					for(int i=0; i < actual.getPets_size();i++) {
+					for(int i=0; actual1!=null;i++) {
 						Pet inside = actual1;
 						if(firstPet==null) {
 							firstPet = inside;
@@ -407,7 +556,7 @@ public class PetsClub {
 					Pet next1 = null;
 					actual1 = actual.getFirst_pet();
 					
-					for(int i=0; i < actual.getPets_size();i++) {
+					for(int i=0; actual1!=null;i++) {
 						Pet inside = actual1;
 						if(inside.getBirthdate().equals(criteria)) {		
 								if(firstPet==null) {

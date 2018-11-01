@@ -4,9 +4,9 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,8 +15,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane prefHeight="400.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="application.IndexController">
+<BorderPane prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.IndexController">
    <top>
       <Pane prefHeight="400.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -31,11 +30,23 @@
                                     <TextField fx:id="tfID" layoutX="176.0" layoutY="46.0" prefHeight="26.0" prefWidth="192.0" />
                                     <TextField fx:id="tfName" layoutX="176.0" layoutY="98.0" prefHeight="26.0" prefWidth="192.0" />
                                     <TextField fx:id="tfSurname" layoutX="176.0" layoutY="148.0" prefHeight="26.0" prefWidth="192.0" />
-                                    <Label layoutX="41.0" layoutY="54.0" text="Identification:" />
-                                    <Label layoutX="41.0" layoutY="104.0" text="Name:" />
-                                    <Label layoutX="41.0" layoutY="154.0" text="Surname:" />
-                                    <Label layoutX="41.0" layoutY="204.0" text="Birthdate:" />
-                                    <DatePicker fx:id="dpBirthdate" layoutX="169.0" layoutY="210.0" prefHeight="26.0" prefWidth="204.0" />
+                                    <Label layoutX="41.0" layoutY="54.0" text="Identification:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <Label layoutX="41.0" layoutY="104.0" text="Name:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <Label layoutX="41.0" layoutY="154.0" text="Surname:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <Label layoutX="41.0" layoutY="204.0" text="Birthdate:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <DatePicker fx:id="dpBirthdate" layoutX="176.0" layoutY="210.0" prefHeight="26.0" prefWidth="190.0" />
                                     <Button fx:id="btRegister" contentDisplay="TOP" layoutX="14.0" layoutY="260.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Register">
                                        <graphic>
                                           <ImageView fitHeight="22.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
@@ -72,6 +83,11 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
+                                    <Label layoutX="21.0" layoutY="14.0" text="Owners Registration">
+                                       <font>
+                                          <Font name="System Bold Italic" size="18.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </Pane>
                               <Pane layoutX="400.0" prefHeight="330.0" prefWidth="400.0">
@@ -80,10 +96,22 @@
                                     <ComboBox fx:id="cbGender" layoutX="166.0" layoutY="153.0" prefHeight="28.0" prefWidth="215.0" />
                                     <DatePicker fx:id="dpBirthdatePet" layoutX="166.0" layoutY="102.0" prefHeight="26.0" prefWidth="211.0" />
                                     <ComboBox fx:id="cbType" layoutX="166.0" layoutY="203.0" prefHeight="28.0" prefWidth="215.0" />
-                                    <Label layoutX="66.0" layoutY="45.0" prefHeight="18.0" prefWidth="82.0" text="Name:" />
-                                    <Label layoutX="66.0" layoutY="106.0" prefHeight="18.0" prefWidth="82.0" text="Birthdate:" />
-                                    <Label layoutX="66.0" layoutY="156.0" prefHeight="18.0" prefWidth="82.0" text="Gender:" />
-                                    <Label layoutX="66.0" layoutY="206.0" prefHeight="18.0" prefWidth="82.0" text="Type:" />
+                                    <Label layoutX="66.0" layoutY="55.0" prefHeight="18.0" prefWidth="82.0" text="Name:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <Label layoutX="66.0" layoutY="106.0" prefHeight="18.0" prefWidth="82.0" text="Birthdate:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <Label layoutX="66.0" layoutY="156.0" prefHeight="18.0" prefWidth="82.0" text="Gender:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
+                                    <Label layoutX="66.0" layoutY="206.0" prefHeight="18.0" prefWidth="82.0" text="Type:">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font></Label>
                                     <Button fx:id="btRegisterPet" contentDisplay="TOP" layoutX="7.0" layoutY="262.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="79.0" text="Register">
                                        <graphic>
                                           <ImageView fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -120,6 +148,11 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
+                                    <Label layoutX="16.0" layoutY="15.0" prefHeight="27.0" prefWidth="154.0" text="Pets Registration">
+                                       <font>
+                                          <Font name="System Bold Italic" size="18.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </Pane>
                            </children>
@@ -144,7 +177,7 @@
                                     <Button fx:id="btRepPets" layoutX="700.0" layoutY="22.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="106.0" text="Rep. Pets" />
                                  </children>
                               </Pane>
-                              <TextArea layoutX="7.0" layoutY="91.0" prefHeight="243.0" prefWidth="782.0" />
+                              <ListView fx:id="listview" layoutX="14.0" layoutY="87.0" prefHeight="242.0" prefWidth="738.0" />
                            </children>
                         </AnchorPane>
                   </content>
