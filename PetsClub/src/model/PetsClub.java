@@ -17,7 +17,8 @@ public class PetsClub {
 	
 	private int owners_size;
 	
-	
+	private Owner repetido;
+	private Pet prepetida;
 	
 	public PetsClub() {
 		first_owner = null;
@@ -107,7 +108,7 @@ public class PetsClub {
 				Owner previous = null;			
 				//New Owner is greater than the first one
 				if(first_owner.compareTo(new_owner) > 0 ) {
-					if(!new_owner.getId().equals(first_owner)) {
+					if(!new_owner.getId().equals(first_owner.getId())) {
 						new_owner.setNext(first_owner);
 						first_owner = new_owner;
 					}else {
@@ -118,6 +119,7 @@ public class PetsClub {
 					while(new_owner.compareTo(actual) > 0 && actual!=null) {
 						previous = actual;
 						actual = actual.getNext();
+						if(actual==null) break;
 					}
 					//Connections 
 					new_owner.setNext(actual);
@@ -313,7 +315,7 @@ public class PetsClub {
 	public boolean existentPet(Pet pet, Owner ow) {
 		boolean exist = false;
 		if(ow!=null) {
-			if(ow.getPets_size()>0) {
+			if(ow.getFirst_pet()!=null) {
 				Pet actual = ow.getFirst_pet();
 				while(actual!=null) {
 					if(actual.getName().compareToIgnoreCase(pet.getName()) == 0) {
@@ -367,19 +369,21 @@ public class PetsClub {
 	}
 	
 	
-	
+	//REVISAR
 	public Pet searchPet(String condition) {
-		Pet pactual = null;
+		Pet toreturn = null;
 		if(!emptyOwners()) {
 			int times1 = 0;
 			Owner actual = first_owner;
-			while(times1<owners_size) {
+			while(actual!=null) {
 					int times2 = 0;
 					if(actual.getFirst_pet()!=null) {
-						pactual = actual.getFirst_pet();
-						while(times2<actual.getPets_size()) {
+						Pet pactual = actual.getFirst_pet();
+						while(pactual!=null) {
+							System.out.println(pactual.getName());
+							System.out.println(condition);
 							if(pactual.getName().equals(condition) || pactual.getBirthdate().toString().equals(condition)) {
-								return pactual;
+								toreturn = pactual;
 							}
 							pactual = pactual.getNext();
 							
@@ -391,7 +395,7 @@ public class PetsClub {
 			}
 		}
 		
-		return pactual;
+		return toreturn;
 	}
 	
 	
@@ -530,22 +534,26 @@ public class PetsClub {
 			Owner actual = first_owner;
 			Owner previous = null;
 			if(criteria==null) {
-				
+				Pet inside = null;
+				Pet actual1 = null;
 				while(actual!=null) {
-					Pet actual1 = new Pet();
-					Pet next1 = null;
+					//actual1 = new Pet();
+					//Pet next1 = null;
 					actual1 = actual.getFirst_pet();
+					if(actual1!=null) {
+					inside = actual1;
+					inside.setNext(null);
 					
-					for(int i=0; actual1!=null;i++) {
-						Pet inside = actual1;
-						if(firstPet==null) {
-							firstPet = inside;
-						}else {
-							inside.setNext(firstPet);
-							firstPet = inside;
-						}
-						actual1 = actual1.getNext();
- 					}
+						
+					}else if(firstPet==null) {
+						firstPet = inside;
+						
+					}else if(firstPet!=null){
+						inside.setNext(null);
+						inside.setNext(firstPet);
+						firstPet = inside;
+					}
+
 					
 					previous = actual;
 					actual = actual.getNext();
@@ -578,6 +586,54 @@ public class PetsClub {
 		return firstPet;
 	}
 	
+	public Owner consultRepetidos(LocalDate criteria) {
+		consultRep(first_owner,first_owner.getNext());
+		return repetido;
+	}
+	
+	public Owner repetidos(Owner base, Owner actual) {
+		Owner aux = null;
+		if(repetido==null) {
+			repetido = new Owner();
+			aux = base;
+			aux.setPrevious(null);
+			aux.setNext(null);
+			aux.setNext(actual);
+			repetido = aux;
+		}else {
+			aux = base;
+			
+			aux.setPrevious(null);
+			aux.setNext(null);
+			aux.setNext(actual);
+			actual.setNext(repetido);
+			repetido = aux;
+		}
+		
+		
+		return repetido;
+	}
+	
+	
+	public void consultRep(Owner base, Owner actual) {
+		if(base!=null) {
+			if(actual!=null) {
+				if(base.getName().equals(actual.getName())) {
+					repetidos(base,actual);
+				}
+				actual = actual.getNext();
+				consultRep(base,actual);
+			}else {
+				base = base.getNext();
+				if(base!=null) {
+					actual = base.getNext();
+					consultRep(base,actual);
+				}
+			}
+		}else {
+		
+		}
+	}
 	
 	
 	

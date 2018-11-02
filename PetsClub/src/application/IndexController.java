@@ -135,12 +135,7 @@ public class IndexController {
 			String name = tfName.getText();
 			String surname= tfSurname.getText();
 			LocalDate birthdate = dpBirthdate.getValue();
-			//LocalDate ld = dpBirthdate.getValue();
-			//Instant instant = Instant.from(ld.atStartOfDay(ZoneId.systemDefault()));
-			//Date birthdate = Date.from(instant);
-			
-			
-			//newOwner = new Owner(id,name,surname,birthdate);
+
 			actualOwner.setId(id);
 			actualOwner.setName(name);
 			actualOwner.setLastname(surname);
@@ -224,10 +219,7 @@ public class IndexController {
 			public void handle(MouseEvent t) {
 				try {
 				
-					System.out.println(getActualOwner());
-					//main.getPetsClub().registerOwner(getActualOwner());
 					Main.registerOwner(getActualOwner());
-				//petsclub.registerOwner(getActualOwner());
 					
 					
 				}catch (ExistentOwnerException e) {
@@ -263,6 +255,13 @@ public class IndexController {
 				if (result.isPresent()){
 				    String id = result.get();
 				    Main.deleteOwner(id);
+				    
+				    Alert a = new Alert(AlertType.INFORMATION);
+					a.setTitle("DELETED PET");
+					a.setHeaderText("Pet deleted sucessfully");
+					a.setContentText(";)");
+					a.showAndWait();
+				    
 				}
 				
 				
@@ -441,6 +440,14 @@ public class IndexController {
 	public void searchPet() {
 		btSearchPet.setOnMouseClicked((MouseEvent)->{
 			
+			String op1 = "Search by Name";
+			String op2 = "Search by Birthdate";
+			List<String> choices = new ArrayList<>();
+			choices.add(op1);
+			choices.add(op2);
+			
+			ComboBox<String> cb = new ComboBox<String>();
+			cb.getItems().addAll(choices);
 			
 			TextField tf1 = new TextField();
 			DatePicker datep = new DatePicker();
@@ -454,11 +461,13 @@ public class IndexController {
 			bt.setText("DONE");
 			bt.setPrefWidth(70);
 			
-			pane.getChildren().addAll(datep,text,bt);
-			datep.relocate(30, 100);
+			pane.getChildren().addAll(cb,datep,text,bt,tf1);
+			
+			datep.relocate(30, 70);
 			text.relocate(30, 10);
 			bt.relocate(30, 130);
-			
+			cb.relocate(30, 40);
+			tf1.relocate(30, 100);
 			
 			 Stage stage = new Stage();
 			 stage.initStyle(StageStyle.DECORATED);
@@ -469,20 +478,44 @@ public class IndexController {
 			 stage.show();
 			
 			 bt.setOnMouseClicked((ActionEvent)->{
-				if(!datep.getEditor().getText().isEmpty()) {
-					String condition = datep.getEditor().getText();
+				if(!datep.getEditor().getText().isEmpty() && cb.getValue()!=null && cb.getValue().equals(op2) && tf1.getText().trim().length()==0) {
+					String condition = datep.getValue().toString();
 					 Pet temp = Main.searchPet(condition);
-					 actualPet = temp;
-					 tfNamePet.setText(actualPet.getName());
-					 dpBirthdatePet.getEditor().setText(actualPet.getBirthdate()+"");
-					 cbGender.setValue(actualPet.getGender());
-					 cbType.setValue(actualPet.getType());
+						if(temp!=null) { 
+					 	actualPet = temp;
+						 tfNamePet.setText(actualPet.getName());
+						 dpBirthdatePet.getEditor().setText(actualPet.getBirthdate()+"");
+						 cbGender.setValue(actualPet.getGender());
+						 cbType.setValue(actualPet.getType());
+						}else {
+							 Alert a = new Alert(AlertType.ERROR);
+								a.setTitle("ERROR");
+								a.setHeaderText("Couldnt find the pet");
+								a.setContentText("Please try again");
+								a.showAndWait();
+						}
 					 
-					 
-				}else {
+				}else if(datep.getEditor().getText().isEmpty() && cb.getValue()!=null && cb.getValue().equals(op1) && tf1.getText().trim().length()!=0) {
+					String condition = tf1.getText();
+					 Pet temp = Main.searchPet(condition);
+					 	if(temp!=null) {
+						 actualPet = temp;
+						 tfNamePet.setText(actualPet.getName());
+						 dpBirthdatePet.getEditor().setText(actualPet.getBirthdate()+"");
+						 cbGender.setValue(actualPet.getGender());
+						 cbType.setValue(actualPet.getType());
+					 	}else {
+					 		 Alert a = new Alert(AlertType.ERROR);
+								a.setTitle("ERROR");
+								a.setHeaderText("Couldnt find the pet");
+								a.setContentText("Please try again");
+								a.showAndWait();
+					 	}
+				}
+				else {
 						Alert a = new Alert(AlertType.ERROR);
-						a.setTitle("Empty field");
-						a.setHeaderText("Please fill the fields");
+						a.setTitle("ERROR");
+						a.setHeaderText("Please complete the fields");
 						a.setContentText("Complete the empty fields");
 						a.showAndWait();	
 				}
@@ -532,7 +565,16 @@ public class IndexController {
 		
 		
 		btRepOwners.setOnMouseClicked((MouseEvent)->{
+			Owner actual = Main.repetidos(criteria.getValue());
+			ObservableList<String> lb = FXCollections.observableArrayList(); 
+			listview.getItems().clear();
+			while(actual!=null) {
+				lb.add("Name: " + actual.getName() + " Surname: "+ actual.getLastname() + " Birthdate: " + actual.getBirthdate());
+				System.out.println(""+actual.getName());
+				actual = actual.getNext();
+			}
 			
+			listview.getItems().addAll(lb);
 		});
 		
 		btRepPets.setOnMouseClicked((MouseEvent)->{

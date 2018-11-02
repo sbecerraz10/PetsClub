@@ -138,9 +138,9 @@ public class Owner implements Comparable<Owner>, Serializable{
 	public boolean containsPet(Pet pet) {
 		Pet actual = first_pet;
 		boolean contains = false;
-		if(pets_size>0) {
+		if(first_pet!=null) {
 			int times = 0;
-			while(times<pets_size) {
+			while(actual!=null) {
 				if(actual.getName().compareToIgnoreCase(pet.getName()) == 0) {
 					contains = true;
 				}
@@ -155,10 +155,10 @@ public class Owner implements Comparable<Owner>, Serializable{
 	public void deletePet(String pname) {
 		Pet actual = first_pet;
 		Pet previous = null;
-		if(pets_size>0) {
+		if(first_pet!=null) {
 			int times = 0;
 			
-			while(times<pets_size) {
+			while(actual!=null) {
 				if(first_pet.getName().compareToIgnoreCase(pname) == 0) {
 					first_pet = first_pet.getNext();
 					break;
@@ -167,11 +167,10 @@ public class Owner implements Comparable<Owner>, Serializable{
 					previous.setNext(actual.getNext());
 					actual.setNext(null);
 					break;
-				}else {
-					previous = actual;
-					actual = actual.getNext();
-					
 				}
+					previous = actual;
+					actual = actual.getNext();	
+				
 				times++;
 			}
 		}

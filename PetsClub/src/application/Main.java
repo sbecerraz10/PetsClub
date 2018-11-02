@@ -107,6 +107,9 @@ public class Main extends Application {
 		return petsclub.containsOwner(owner);
 	}
 	
+	public static Owner repetidos(LocalDate criteria) {
+		return petsclub.consultRepetidos(criteria);
+	}
 	
 	
 	

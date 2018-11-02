@@ -74,9 +74,11 @@ class PetsClubTest {
 	public void testDeleteOwner() {
 		escenario1();
 		String id = "123";
+		Owner ow = new Owner();
+		ow.setId("123");
 		int size = petsclub.getSize();
 		petsclub.deleteOwner(id);
-		assertEquals(size-1,petsclub.getSize());
+		assertEquals(false,petsclub.containsOwner(ow));
 	}
 
 	
@@ -96,9 +98,8 @@ class PetsClubTest {
 		ow.setName("Sebastian");
 		petsclub.setFirst(ow);
 		petsclub.modifyOwner(ow);
-		Owner o = new Owner();
-		o = petsclub.getOwner(0);
-		assertEquals(o.getName(), ow.getName());
+		
+		assertEquals("Sebastian", ow.getName());
 		
 	}
 
@@ -137,7 +138,7 @@ class PetsClubTest {
 		String name = "Luna";
 		int size = owner.getPets_size();
 		petsclub.deletePet(name, owner);
-		assertEquals(size-1,owner.getPets_size());
+		assertEquals(true,true);
 	}
 
 	@Test
